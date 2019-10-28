@@ -49,3 +49,6 @@ Add here a sketch of your planning for the next project milestone.
 
 # Questions for TAa
 Add here some questions you have for us, in general or project-specific.
+* Are we allowed to make certain "researched" assumptions:
+  * Could we say that if one country produces a lot of a certain crop, and a neighboring country with the same climate doesn't produce any, that they have the potential to start producing that crop?
+  * Can we make suggestions for how localized food production could look like for "example" countries?
