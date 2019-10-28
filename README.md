@@ -28,7 +28,6 @@ These are the datasets we plan on using:
 All of these datasets are in CSV format. We might need to enrich them with other FAO datasets. We might need to normalize these datasets by country population in the future, which would require more data.
 
 # A list of internal milestones up until project milestone 2
-Add here a sketch of your planning for the next project milestone.
 
 * November 03rd: 
   * Merge all datasets into one, and set up global and local notebooks for all team members.
@@ -48,7 +47,6 @@ Add here a sketch of your planning for the next project milestone.
 * November 25th: Milestone 02
 
 # Questions for TAa
-Add here some questions you have for us, in general or project-specific.
 * Are we allowed to make certain "researched" assumptions:
   * Could we say that if one country produces a lot of a certain crop, and a neighboring country with the same climate doesn't produce any, that they have the potential to start producing that crop?
   * Can we make suggestions for how localized food production could look like for "example" countries?
