@@ -4,7 +4,7 @@
 
 # Local Notebooks
 local.ipynb
-.ipynb_checkpoints/local-checkpoint.ipynb
+.ipynb_checkpoints
 
 # DS_Store
 .DS_Store
