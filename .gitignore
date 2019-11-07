@@ -8,3 +8,6 @@ local.ipynb
 
 # DS_Store
 .DS_Store
+
+#PyCache
+/code/__pycache__/
