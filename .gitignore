@@ -1,6 +1,6 @@
 
 # Data
-/data
+/data/*
 
 # Local Notebooks
 local.ipynb
