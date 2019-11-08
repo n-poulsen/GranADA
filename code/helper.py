@@ -45,13 +45,13 @@ def yearly_trade_by_country(df, country, item, unit='tonnes', reporter=True):
     :return: pd.DataFrame Contains 'Import [unit]' and 'Export [unit]' columns, and a row for each year.
     """
     if reporter:
-        df = df[df['Reporter Countries']== country]
+        df_country = df[df['Reporter Countries']== country]
     else:
-        df = df[df['Partner Countries'] == country]
-    df = yearly_trade(df, item, unit=unit)
+        df_country = df[df['Partner Countries'] == country]
+    df_country = yearly_trade(df_country, item, unit=unit)
     # If the country is not the reporter, the import and export columns are switched
     if not reporter:
-        df = df.rename(columns={f"Exports": f"Imports", f"Imports": f"Exports"})
-        df = df.iloc[:,[1, 0]]
-    return df
+        df_country = df_country.rename(columns={f"Exports": f"Imports", f"Imports": f"Exports"})
+        df_country = df_country.iloc[:,[1, 0]]
+    return df_country
     
