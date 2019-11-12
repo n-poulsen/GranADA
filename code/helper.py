@@ -2,12 +2,37 @@ import numpy as np
 import pandas as pd
 
 
-def remove_f_years(df):
+def remove_f_years(df, year_min=[1961,1993], year_max=[2017,2020]):
+    
+    """
+    Cleans data matrix by FAO-code columns, and FAO-flag columns. 
+    Additionaly removes undesired years from matrices.
+    
+    :param df: pd.DataFrame The dataframe containing the import, export, production, or value data.
+    :param year_min: range of minimum years to be removed [1981,1993], 1993 excluded.
+    :param year_min: range of maximum years to be removed [2017,2020], 2020 excluded.
+    :return: pd.DataFrame containing trimmed down data.
+    """
+    
+    #Flags NaN mean "official data". Flag M means missing value. [NaN,NaN] in [Y#,Y#F] means zero.
+    #Note: for "production value" dataset, Flags NaN is not explicitely reported as the "official data"
+    for year in range(year_min[1],year_max[0]):
+        yi="Y"+str(year)
+        yf="Y"+str(year)+"F"
+        df.loc[df[yi].isna() & df[yf].isna(), [yi]] = 0.0
+    
+    #Keep human readable columns not containign "Code" and "Y&F"
     df = df.drop(columns=[label for label in df.columns if 'Y' and 'F' in label])
     df = df.drop(columns=[label for label in df.columns if 'Code' in label])
-    df = df.replace(np.NaN,0.0)
+    
+    #Remove undesired years
+    
+    yr_list_min = ["Y"+str(year) for year in range(year_min[0],year_min[1])]
+    yr_list_max = ["Y"+str(year) for year in range(year_max[0],year_max[1])]
+    df = df.drop(columns=[year for year in df.columns if year in yr_list_min])
+    df = df.drop(columns=[year for year in df.columns if year in yr_list_max])
+    
     return df
-
 
 def yearly_trade(df, item, unit='tonnes'):
     """
