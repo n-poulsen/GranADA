@@ -47,8 +47,8 @@ def yearly_trade(df, item, unit='tonnes'):
     """
     df = df[df['Item'] == item]
     df = df[df['Unit'] == unit]
-    df = df[[f'Y{label}' for label in range(1986, 2017)] + ['Element']]
-    df = pd.melt(df, id_vars=[f'Y{label}' for label in range(1986, 2017)],\
+    df = df[[f'Y{label}' for label in range(1993, 2017)] + ['Element']]
+    df = pd.melt(df, id_vars=[f'Y{label}' for label in range(1993, 2017)],\
                  value_vars=['Element'], value_name='year').groupby('year').sum().transpose()
     if unit == 'tonnes':
         label = "Quantity"
