@@ -10,4 +10,4 @@ local.ipynb
 .DS_Store
 
 #PyCache
-/code/__pycache__/
+/exploration/__pycache__/
