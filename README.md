@@ -57,16 +57,17 @@ All of these datasets are in CSV format. We might need to enrich them with other
 
 After preprocessing the data and done different analysis on it, we decided to follow the structure below for the final data story. The structure goes from a general overview of globalization and then goes deeper into the analysis of regions, then even more specifically some products.
 
-1. **Globalization over the years:** Globalization is a fact but….
-  * In which countries have the import/export production increased over the years? Plt normalized by population.
-  * Which countries trade the most between each other? Plot in a map: you select a country and it can tell you it.
-  * Orrrr, you select a country and in the map you see with which countries they have a highest similarity in the products imported/exported (we expect to see clusters of countries) 
+1. **Globalization over the years:**
+  * How has trade changed between 1993 and 2016?
+  * In which countries have the import/export production increased over the years? 
+  * Which countries trade the most between each other?
+  * Are some countries marginalized?
 
-2. **Regions:** Study what is going on in some regions
+2. **Regions:**
   * Here we would start making the link with the them social good by analyzing the trades between some regions and the rest of the world and finding out whether these regions have been marginalized
 
 3. **Specific products:**
-  * Studying trendy foods like quinoa, chia, ...
+  * Study quinoa: where was it consumed in 1993, where it is consumed now, how prices have evolved.
   * Focus on one type of food for the moment and then see how deep the analysis can get
 
 ## Timeline for milestone 3
