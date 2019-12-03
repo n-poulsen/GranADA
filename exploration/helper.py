@@ -81,3 +81,46 @@ def yearly_trade_by_country(df, country, item, unit='tonnes', reporter=True):
         df_country = df_country.iloc[:,[1, 0]]
     return df_country
     
+
+def clean_trade_quantities(df):
+    """
+    Merges the trade matrix using the max method.
+    
+    :param df: the trade matrix.
+    :return: the merged matrices.
+    """
+    df_importer = df[df['Element'] == 'Import Quantity']
+    df_exporter = df[df['Element'] == 'Export Quantity']
+    # Trades as reported by the importing country
+    df_importer = df_importer.rename(columns={
+        'Reporter Countries': 'Importer',
+        'Partner Countries': 'Exporter',
+    }).drop(['Element', 'Unit'], axis=1)
+
+    # Trades as reported by the exporting country
+    df_exporter = df_exporter.rename(columns={
+        'Reporter Countries': 'Exporter',
+        'Partner Countries': 'Importer',
+    }).drop(['Element', 'Unit'], axis=1)
+
+    # Rename the columns
+    cols_i = [name for name in df_importer.columns]
+    cols_e = [name for name in df_exporter.columns]
+    cols_i[3:] = [col + 'I' for col in cols_i[3:]]
+    cols_e[3:] = [col + 'E' for col in cols_e[3:]]
+    df_importer.columns = cols_i
+    df_exporter.columns = cols_e
+
+    # Merge the dataframes
+    df_trades_m = df_importer.merge(df_exporter, how='outer', on=['Importer', 'Exporter', 'Item']).fillna(0)
+
+    # Take the max of both types of reporter
+    df_clean_trades = df_trades_m[['Importer', 'Exporter', 'Item']]
+    df_importer_reports = df_trades_m[['Y' + str(year) + 'I' for year in range(1993, 2017)]]
+    df_importer_reports.columns = [str(year) for year in range(1993, 2017)]
+    df_exporter_reports = df_trades_m[['Y' + str(year) + 'E' for year in range(1993, 2017)]]
+    df_exporter_reports.columns = [str(year) for year in range(1993, 2017)]
+    max_values = df_importer_reports.where(df_importer_reports > df_exporter_reports, df_exporter_reports)
+    df_clean_trades[[str(year) for year in range(1993, 2017)]] = max_values
+    
+    return df_clean_trades
