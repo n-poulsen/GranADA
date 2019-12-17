@@ -124,3 +124,55 @@ def clean_trade_quantities(df):
     df_clean_trades[[str(year) for year in range(1993, 2017)]] = max_values
     
     return df_clean_trades
+
+def TWarp(df, field, tags, normalize=True):
+    
+    """
+    Performs time warping computation for a speccific set of time series, and returns mean and standard deviation.
+    
+    :param df: pd.DataFrame, The dataframe containing the import, export, production, or value data.
+    :param field: string, specific field to look at like area, item, exporter, importer.
+    :param tags: set, to look at i.e. ["China","Brazil"]. "All", computes for all. Integer, takes first N from df.
+    :return: pd.DataFrame containing mean time warping distance, standard deviation, and number of elements computed.
+    """
+    
+    if tags == "All":
+        tags = df[field].unique()
+    elif type(tags)==np.int:
+        tags = df[field].unique()[0:tags]
+        
+    d_out = {}
+    
+    for tag in tags:
+        #Select specific data based on field and tag
+        df_test = df[df[field] == tag]
+        
+        #Remove any all zero data
+        df_test = df_test[df_test.loc[:,"1993":].sum(axis=1)!=0]
+        
+        #For compatibility with dtw
+        df_test = df_test.reset_index()
+        
+        #Extract data
+        series = df_test.loc[:,"1993":"2016"].to_numpy(dtype=np.double)
+        
+        #Verify if there is enough data
+        if len(series)<=1:
+            d_out[tag] = [np.NaN,np.NaN,len(series)-1]
+            continue
+        
+        #Normalize data
+        if normalize:
+            series = [scipy.stats.zscore(series[i]) for i in range(len(series))]
+        
+        #Compute time warping
+        ds = dtw.distance_matrix_fast(series)
+        
+        #Replace inf with NAN
+        ds[ds==np.inf] = np.nan
+        
+        #Compute and store statistical information
+        d_out[tag] =  [np.nanmean(ds),np.nanstd(ds),(ds.shape[0]-1)]
+        
+    df_out = pd.DataFrame.from_dict(d_out,orient='index',columns=["mean","std","size"])
+    return df_out
