@@ -14,7 +14,7 @@ def correct_names(df, name, correct, wrong):
     
     return df
 
-def plot_imports(Europeee):
+def plot_imports(cs):
     
     plotly.offline.init_notebook_mode(connected=True)
     plotly.offline.init_notebook_mode()
@@ -37,6 +37,8 @@ def plot_imports(Europeee):
         '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', 
         '2015', '2016'] 
 
+
+
     df_countries = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv') 
     df_trade = pd.read_pickle("data/df_trade_merged.pkl")
     df_trade = correct_names(df_trade, 'Importer', correct, wrong)
@@ -49,8 +51,10 @@ def plot_imports(Europeee):
         dic = [dict(type='choropleth',
                  locations = data['COUNTRY'].astype(str),
                  z=data[i].astype(float),
-                 colorscale='Blues',
+                 colorscale=cs,
                  colorbar_title = 'Imports',
+                 zmax = data['2016'].max(),
+                 zmin = data['1993'].min(),
                  locationmode='country names')]
         dataplot.append(dic[0].copy())
 
@@ -58,25 +62,31 @@ def plot_imports(Europeee):
     for i in range(len(dataplot)):
         step = dict(method='restyle',
                     args=['visible', [False] * len(dataplot)],
-                    label='Year {}'.format(i + 1993))
+                    label='Year {}'.format(i + 1993),
+                   )
         step['args'][1][i] = True
         steps.append(step)
 
     sliders = [dict(active=0,
                     pad={"t": 1},
-                    steps=steps)]    
+                    steps=steps)] 
+    
+    
     layout = dict(geo=dict(scope='world',
                   projection={'type': 'equirectangular'},
                   showframe=False),
                   margin={"r":0,"t":0,"l":0,"b":0},
                   sliders=sliders)
+    
     fig = dict(data=dataplot, 
            layout=layout)
-    plotly.offline.iplot(fig)
-    a = 1
-    return a
+    
 
-def plot_exports():
+    
+    plotly.offline.iplot(fig)
+
+
+def plot_exports(cs):
     
     plotly.offline.init_notebook_mode(connected=True)
     plotly.offline.init_notebook_mode()
@@ -111,7 +121,7 @@ def plot_exports():
         dic = [dict(type='choropleth',
                  locations = data['COUNTRY'].astype(str),
                  z=data[i].astype(float),
-                 colorscale='Blues',
+                 colorscale=cs,
                  colorbar_title = 'Imports',
                  locationmode='country names')]
         dataplot.append(dic[0].copy())
@@ -137,7 +147,7 @@ def plot_exports():
     plotly.offline.iplot(fig)
     
 
-def plot_globaltrade(Europe):
+def plot_globaltrade(Europe, cs, thick):
     correct = ['Bahamas, The', 'Bolivia', 'Brunei',  'China',  "Cote d'Ivoire", 
           'Congo, Democratic Republic of the', 'Congo, Republic of the', 'Czech Republic',
           'Gambia, The', 'Hong Kong', 'Iran', 'Korea, South', 'Laos',
@@ -192,6 +202,9 @@ def plot_globaltrade(Europe):
     
     trade = df_trade.groupby(['Importer', 'Exporter']).sum().reset_index()
     
+    ind = [i for i in range (len(trade))  if trade['Importer'][i] == trade['Exporter'][i]]
+    trade = trade.drop(ind, axis = 0)
+    
     data = trade.merge(df_coordinates[['sovereignt', 'Longitude', 'Latitude']], left_on = 'Importer', right_on = 'sovereignt', how = 'inner').drop(['sovereignt'], axis = 1)\
     .rename(columns = {'Longitude':'Reporter Long', 'Latitude':'Reporter Lat'})
     data = data.merge(df_coordinates[['sovereignt', 'Longitude', 'Latitude']], left_on = 'Exporter', right_on = 'sovereignt', how = 'inner').drop(['sovereignt'], axis = 1)\
@@ -210,8 +223,10 @@ def plot_globaltrade(Europe):
         dic = [dict(type='choropleth',
                  locations = prod['Area'].astype(str),
                  z=prod[i[0]].astype(float),
-                 colorscale='Blues',
+                 colorscale=cs,
                  colorbar_title = 'Production',
+                 zmax = prod['Y2016'].max(),
+                 zmin = prod['Y1993'].min(),
                  locationmode='country names')]
         dataplot.append(dic[0].copy())
 
@@ -224,7 +239,8 @@ def plot_globaltrade(Europe):
                 lon = [data['Reporter Long'][j], data['Partner Long'][j]],
                 lat = [data['Reporter Lat'][j], data['Partner Lat'][j]],
                 mode = 'lines',
-                line = dict(width = 1,color = 'red'),
+                visible = False,
+                line = dict(width = float(data[i[1]][j])*thick / float(data['2016'].max()),color = 'red'),
                 opacity = float(data[i[1]][j]) / float(data[i[1]].max()))]
             dataplot.append(dic[0].copy())
             
@@ -254,7 +270,7 @@ def plot_globaltrade(Europe):
 
     plotly.offline.iplot(fig)
     
-def production_trade(product, Europe):
+def production_trade(product, Europe, cs, thick):
     
     correct = ['Bahamas, The', 'Bolivia', 'Brunei',  'China',  "Cote d'Ivoire", 
           'Congo, Democratic Republic of the', 'Congo, Republic of the', 'Czech Republic',
@@ -302,9 +318,14 @@ def production_trade(product, Europe):
     df_trade = correct_names(df_trade, 'Exporter', correct2, wrong2)
     trade = df_trade.loc[df_trade['Item'] == product]
     
+    trade = trade.reset_index()
+    
     if Europe == True:
         trade = correct_names(trade, 'Importer', correct3, wrong3)
         trade = correct_names(trade, 'Exporter', correct3, wrong3)
+        
+    ind = [i for i in range (len(trade))  if trade['Importer'][i] == trade['Exporter'][i]]
+    trade = trade.drop(ind, axis = 0)
     
     data = trade.merge(df_coordinates[['sovereignt', 'Longitude', 'Latitude']], left_on = 'Importer', right_on = 'sovereignt', how = 'inner').drop(['sovereignt'], axis = 1)\
         .rename(columns = {'Longitude':'Reporter Long', 'Latitude':'Reporter Lat'})
@@ -324,8 +345,10 @@ def production_trade(product, Europe):
         dic = [dict(type='choropleth',
                  locations = prod['Area'].astype(str),
                  z=prod[i[0]].astype(float),
-                 colorscale='Blues',
+                 colorscale=cs,
                  colorbar_title = 'Production',
+                 zmax = prod['Y2016'].max(),
+                 zmin = prod['Y1993'].min(),
                  locationmode='country names')]
         dataplot.append(dic[0].copy())
 
@@ -338,7 +361,8 @@ def production_trade(product, Europe):
                 lon = [data['Reporter Long'][j], data['Partner Long'][j]],
                 lat = [data['Reporter Lat'][j], data['Partner Lat'][j]],
                 mode = 'lines',
-                line = dict(width = 1,color = 'red'),
+                visible = False,
+                line = dict(width = float(data[i[1]][j])*thick / float(data['2016'].max()),color = 'red'),
                 opacity = float(data[i[1]][j]) / float(data[i[1]].max()))]
             dataplot.append(dic[0].copy())
 
@@ -367,8 +391,9 @@ def production_trade(product, Europe):
                layout=layout)
 
     plotly.offline.iplot(fig)
+
     
-def production_price(product):
+def production_price(product, cs):
     correct = ['Bahamas, The', 'Bolivia', 'Brunei',  'China',  "Cote d'Ivoire", 
           'Congo, Democratic Republic of the', 'Congo, Republic of the', 'Czech Republic',
           'Gambia, The', 'Hong Kong', 'Iran', 'Korea, South', 'Laos',
@@ -433,7 +458,7 @@ def production_price(product):
         dic = [dict(type='choropleth',
                  locations = data['COUNTRY'].astype(str),
                  z=data[i].astype(float),
-                 colorscale='Blues',
+                 colorscale=cs,
                  colorbar_title = i,
                  locationmode='country names')]
         dataplot.append(dic[0].copy())
