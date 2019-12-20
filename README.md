@@ -76,5 +76,46 @@ After preprocessing the data and done different analysis on it, we decided to fo
 * December 8th: Finish step 2 and 3 in the structure
 * Starting December 9th: Start working on the data story
 
+# Milestone 3
+
+The plan we set up for the data story after milestone 2 was altered. We discovered many interesting facts about certain types of food and how they were affected by globalization. Therefore, we followed up on that and rearranged the structure to look like the following:
+
+1. **Introduction: Food Globlization**
+  * How has trade changed between 1993 and 2016?
+  * Are there any patterns that stand out?
+  * Identify trade giants
+  
+2. **Soy: animal feed**
+  * China : the main importer of soybeans in the world
+  * What are soybeans used for in 
+  * The rise of Brazil as one of the biggest exporters of soybeans
+  * Soybean production part of the reasons behind deforestation in the Amazon (**Social good**)
+ 
+3. **Sesame seeds: small producers**
+  * Imports of sesame seeds in the world : the surge in imports from Africa to China
+  * What is the reason behind this increase? (**Social good**)
+
+4. **Avocados: government bans**
+  * USA/Mexico trade relations with the introduction of NAFTA
+  * 
+
+5. **Quinoa: consumer demand**
+  * Worldwide boom 
+
+
+# Individual contributions
+
+1. Paula Sànchez López:
+  * 
+  *
+
+2. Emanuel Vasquez:
+  *
+  * 
+
+3. Niels Poulsen:
+
+4. Yann Yasser Haddad:
+  * 
 
 
