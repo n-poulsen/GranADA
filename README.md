@@ -106,16 +106,29 @@ The plan we set up for the data story after milestone 2 was altered. We discover
 # Individual contributions
 
 1. Paula Sànchez López:
-  * 
-  *
+  * Generation of choropleth maps
+  * Styling of graphs for webpage
+  * Generation of miscellaneous graphs
+  * Writing and editing of data story
+  * Analysis focus: Avocados, Quinoa
 
 2. Emanuel Vasquez:
-  *
-  * 
+  * Analysis of producer/item diversity (Hills number change over time)
+  * Analysis of production and trade patterns using dynamic time warping
+  * Adding features to choropleth maps
+  * Writing and editing of data story
+  * Analysis focus: Sesame seeds
 
 3. Niels Poulsen:
+  * Setting up website layout
+  * Generation of miscellaneous graphs
+  * Analysis focus: China
 
 4. Yann Yasser Haddad:
-  * 
+  * Data exploration through clustering
+  * Visualization of trade through network graphs
+  * Writing and editing of data story
+  * Analysis focus: Brazil
+  * Will prepare the poster
 
 
