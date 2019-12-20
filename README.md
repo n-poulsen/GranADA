@@ -97,10 +97,11 @@ The plan we set up for the data story after milestone 2 was altered. We discover
 
 4. **Avocados: government bans**
   * USA/Mexico trade relations with the introduction of NAFTA
-  * 
+  * Trade within Europe
 
 5. **Quinoa: consumer demand**
-  * Worldwide boom 
+  * Worldwide boom
+  * Trendiness of quinoa drives local effects in Peru
 
 
 # Individual contributions
