@@ -84,6 +84,7 @@ def plot_imports(cs):
 
     
     plotly.offline.iplot(fig)
+    return fig
 
 
 def plot_exports(cs):
@@ -147,6 +148,7 @@ def plot_exports(cs):
     fig = dict(data=dataplot, 
            layout=layout)
     plotly.offline.iplot(fig)
+    return fig
     
 
 def plot_globaltrade(Europe, cs, thick, th_max, th_min, th_max2, th_min2, op_per):
@@ -308,6 +310,7 @@ def plot_globaltrade(Europe, cs, thick, th_max, th_min, th_max2, th_min2, op_per
                layout=layout)
 
     plotly.offline.iplot(fig)
+    return fig
     
 def production_trade(product, Europe, cs, thick, th_max, th_min, th_max2, th_min2, op_per):
     
@@ -467,6 +470,7 @@ def production_trade(product, Europe, cs, thick, th_max, th_min, th_max2, th_min
                layout=layout)
 
     plotly.offline.iplot(fig)
+    return fig
 
     
 def production_price(product, cs):
@@ -563,3 +567,4 @@ def production_price(product, cs):
     fig = dict(data=dataplot, 
            layout=layout)
     plotly.offline.iplot(fig)
+    return fig
