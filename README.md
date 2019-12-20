@@ -132,4 +132,5 @@ The plan we set up for the data story after milestone 2 was altered. We discover
   * Analysis focus: Brazil
   * Will prepare the poster
 
-
+# Data Story
+https://granadahfg.github.io
